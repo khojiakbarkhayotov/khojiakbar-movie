@@ -5,14 +5,15 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, FloatField
 from wtforms.validators import DataRequired, NumberRange
 import requests
+import os
 
 TMDB_API_KEY = '39356401f10209e14a4873c35c8d9664'
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 
 # CREATE DATABASE
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///movies.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///movies.db")
 # Optional: But it will silence the deprecation warning in the console.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
