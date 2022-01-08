@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, FloatField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, NumberRange
 import requests
 
 TMDB_API_KEY = '39356401f10209e14a4873c35c8d9664'
@@ -37,7 +37,9 @@ db.create_all()
 
 class Edit_Movie(FlaskForm):
     new_rating = FloatField("Your rating out of 10 e.g. 7.6",
-                            validators=[DataRequired()], render_kw={"placeholder": "new rating ..."})
+                            validators=[DataRequired(), NumberRange(min=1,
+                                                                    max=10, message='Maximum rate is 10, minimum 0.')],
+                            render_kw={"placeholder": "new rating ..."})
     new_review = StringField("Your review", validators=[DataRequired()], render_kw={"placeholder": "new review ..."})
     submit = SubmitField('Done')
 
